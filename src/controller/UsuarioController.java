@@ -39,24 +39,55 @@ public class UsuarioController {
         return false;
     }
     
-//    public boolean inserirUsuario(Usuario usu) {
-//        String sql = "INSERT INTO usuarios(nome, email, senha, datanasc) " + "VALUES (?,?,?,?)";
-//        GerenciadorConexao gerenciador = new GerenciadorConexao();
-//        PreparedStatement comando = null;
-//        try {
-//            comando = gerenciador.prepararConexao(sql);
-//            comando.setString(1, usu.getNome());
-//            comando.setString(2, usu.getEmail());
-//            comando.setString(3, usu.getSenha());
-//            comando.setDate(4, new java.sql.Date(usu.getDatanasc().getTime()));
-//            comando.executeUpdate();
-//            return true;
-//        } catch (SQLException e) {
-//            JOptionPane.showMessageDialog(null, e.getMessage());
-//
-//        } finally {
-//            gerenciador.fecharConexao();
-//        }
-//        return false;
-//    }
+    public boolean inserirUsuario(Usuario usu) {
+        String sql = "INSERT INTO usuarios(nome, email, senha, datanasc) " + "VALUES (?,?,?,?)";
+        GerenciadorConexao gerenciador = new GerenciadorConexao();
+        PreparedStatement comando = null;
+        try {
+            comando = gerenciador.prepararConexao(sql);
+            comando.setString(1, usu.getNome());
+            comando.setString(2, usu.getEmail());
+            comando.setString(3, usu.getSenha());
+            comando.setDate(4, new java.sql.Date(usu.getDatanasc().getTime()));
+            comando.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+
+        } finally {
+            gerenciador.fecharConexao();
+        }
+        return false;
+    }
+    
+    public List<Usuario> consultar() {
+        String sql = "SELECT * FROM tbusuario";
+        GerenciadorConexao gerenciador = new GerenciadorConexao();
+
+        PreparedStatement comando = null;
+        ResultSet resultado = null;
+        List<Usuario> listaUsuario = new ArrayList<>();
+        try {
+            comando = gerenciador.prepararConexao(sql);
+
+            resultado = comando.executeQuery();
+            while (resultado.next()) {
+                Usuario usu = new Usuario();
+
+                usu.setPkusuario(resultado.getInt("pkusuario"));
+                usu.setNome(resultado.getString("nome"));
+                usu.setEmail(resultado.getString("email"));
+                usu.setSenha(resultado.getString("senha"));
+                usu.setDatanasc(resultado.getDate("datanasc"));
+                listaUsuario.add(usu);
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(UsuarioController.class.getName()).log(
+                    Level.SEVERE, null, e);
+
+        } finally {
+            gerenciador.fecharConexao(comando, resultado);
+        }
+        return listaUsuario;
+    }
 }

@@ -5,10 +5,7 @@
  */
 package view;
 
-/**
- *
- * @author aluno.saolucas
- */
+import view.FrCadUsuario;
 public class FrMenu extends javax.swing.JFrame {
 
     /**
@@ -32,8 +29,10 @@ public class FrMenu extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
+        meCadUsu = new javax.swing.JMenuItem();
+        meCadServico = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
@@ -67,27 +66,53 @@ public class FrMenu extends javax.swing.JFrame {
                 .addGap(192, 192, 192))
         );
 
-        jMenu3.setText("Clientes");
-
-        jMenuItem2.setText("Serviços");
-        jMenu3.add(jMenuItem2);
-
-        jMenuItem3.setText("Adicionar serviço");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
+        jMenu3.setText("Cadastro");
+        jMenu3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu3MouseClicked(evt);
             }
         });
-        jMenu3.add(jMenuItem3);
+
+        meCadUsu.setText("Usuario");
+        meCadUsu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                meCadUsuMouseClicked(evt);
+            }
+        });
+        meCadUsu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                meCadUsuActionPerformed(evt);
+            }
+        });
+        jMenu3.add(meCadUsu);
+
+        meCadServico.setText("Serviço");
+        meCadServico.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                meCadServicoMouseClicked(evt);
+            }
+        });
+        meCadServico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                meCadServicoActionPerformed(evt);
+            }
+        });
+        jMenu3.add(meCadServico);
+
+        jMenuItem8.setText("Produto");
+        jMenu3.add(jMenuItem8);
+
+        jMenuItem2.setText("Funcionário");
+        jMenu3.add(jMenuItem2);
 
         jMenuBar1.add(jMenu3);
 
-        jMenu1.setText("Produtos");
+        jMenu1.setText("Consulta");
 
-        jMenuItem4.setText("Pesqiusar");
+        jMenuItem4.setText("Produtos");
         jMenu1.add(jMenuItem4);
 
-        jMenuItem5.setText("Adicionar Produto");
+        jMenuItem5.setText("Serviços");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem5ActionPerformed(evt);
@@ -97,17 +122,12 @@ public class FrMenu extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Serviços");
+        jMenu2.setText("Atendimento");
 
-        jMenuItem6.setText("Pesquisar");
-        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem6ActionPerformed(evt);
-            }
-        });
+        jMenuItem6.setText("Adicionar");
         jMenu2.add(jMenuItem6);
 
-        jMenuItem7.setText("Adicionar Serviço");
+        jMenuItem7.setText("Pesquisar ");
         jMenu2.add(jMenuItem7);
 
         jMenuBar1.add(jMenu2);
@@ -131,17 +151,31 @@ public class FrMenu extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+    private void meCadServicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_meCadServicoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
+    }//GEN-LAST:event_meCadServicoActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
-    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+    private void meCadUsuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_meCadUsuActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem6ActionPerformed
+    }//GEN-LAST:event_meCadUsuActionPerformed
+
+    private void meCadUsuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_meCadUsuMouseClicked
+       FrCadUsuario telaFrCad = new FrCadUsuario(this, rootPaneCheckingEnabled);
+       telaFrCad.setVisible(true);
+       
+    }//GEN-LAST:event_meCadUsuMouseClicked
+
+    private void jMenu3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu3MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenu3MouseClicked
+
+    private void meCadServicoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_meCadServicoMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_meCadServicoMouseClicked
 
     /**
      * @param args the command line arguments
@@ -187,11 +221,13 @@ public class FrMenu extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JMenuItem meCadServico;
+    private javax.swing.JMenuItem meCadUsu;
     // End of variables declaration//GEN-END:variables
 }
