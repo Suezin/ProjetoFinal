@@ -135,7 +135,7 @@ public class FrCadServico extends javax.swing.JDialog {
                 btnExcluirMouseClicked(evt);
             }
         });
-        jPanel1.add(btnExcluir, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 460, -1, -1));
+        jPanel1.add(btnExcluir, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 460, -1, -1));
 
         btnSalvar.setFont(new java.awt.Font("Courier New", 1, 18)); // NOI18N
         btnSalvar.setText("Salvar");

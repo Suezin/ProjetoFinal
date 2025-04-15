@@ -5,6 +5,7 @@
  */
 package view;
 
+import controller.ProdutosController;
 import controller.UsuarioController;
 import java.util.Date;
 import javax.swing.JOptionPane;
@@ -17,15 +18,37 @@ import model.Usuario;
  */
 public class FrAltProd extends javax.swing.JDialog {
 
+    private int pkProduto;
+
     /**
      * Creates new form FrAltProd
      */
-    public FrAltProd(java.awt.Frame parent, boolean modal) {
+    public FrAltProd(java.awt.Frame parent, boolean modal, int pkProduto) {
         super(parent, modal);
         initComponents();
+        setPkProduto(pkProduto);
+        carregarProduto();
     }
-    
-    
+
+    public void setPkProduto(int pkProduto) {
+        this.pkProduto = pkProduto;
+    }
+
+    public void carregarProduto() {
+
+        ProdutosController controller = new ProdutosController();
+        Produtos prod =controller.buscarPorPk(pkProduto);
+
+        String codigo = String.valueOf(prod.getPkProduto());
+        txtPkProd.setText(codigo);
+        txtDescProd.setText(prod.getDescricao());
+        txtPrecoProd.setText(prod.getPreco());
+        
+    }
+
+    FrAltProd(Object object, boolean rootPaneCheckingEnabled, int pkProduto) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -148,38 +171,29 @@ public class FrAltProd extends javax.swing.JDialog {
 
     private void btnAlterarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAlterarMouseClicked
         // TODO add your handling code here:
-        
-        
+        gravar();
+
     }//GEN-LAST:event_btnAlterarMouseClicked
 
-//     public void gravar(){
-//         Produtos prod = new Produtos();
-//        
-//        prod.setPkUsuario(pkUsuario);
-//        prod.setNome(txtNome.getText());
-//        prod.setEmail(txtEmail.getText());
-//        
-//        if(txtSenha.isEditable()){
-//            String senha = new String(txtSenha.getPassword());
-//            String senhaHash = utils.Utils.calcularHash(senha);
-//            prod.setSenha(senhaHash);
-//        }
-//        Date data = utils.Utils.converterStringToDate(txtDataNasc.getText());
-//        prod.setDataNasc(data);
-//        
-//        prod.setAtivo(chbAtivo.isSelected());
-//        
-//        UsuarioController controller = new UsuarioController();
-//        
-//        if(controller.alterarUsuario(usuario)){
-//            JOptionPane.showMessageDialog(null , "Usuário: " + prod.getNome() + " alterado com sucesso !");
-//            this.dispose();
-//            
-//        }else{
-//            JOptionPane.showMessageDialog(null, "Usuário não alterado ! ");
-//        }
-//        
-//    }
+    public void gravar() {
+        Produtos prod = new Produtos();
+
+        prod.setPkProduto(pkProduto);
+        prod.setDescricao(txtDescProd.getText());
+        prod.setPreco(txtPrecoProd.getText());
+
+        ProdutosController controller = new ProdutosController();
+
+        if (controller.alterarProduto(prod)) {
+            JOptionPane.showMessageDialog(null, "Usuário: " + prod.getDescricao() + " alterado com sucesso !");
+            this.dispose();
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Usuário não alterado ! ");
+        }
+
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -210,7 +224,7 @@ public class FrAltProd extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                FrAltProd dialog = new FrAltProd(new javax.swing.JFrame(), true);
+                FrAltProd dialog = new FrAltProd(new javax.swing.JFrame(), true, 0);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

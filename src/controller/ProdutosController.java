@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 import model.Produtos;
+import model.Usuario;
 
 
 
@@ -28,10 +29,10 @@ public class ProdutosController {
             while (resultado.next()) {
                 Produtos prod = new Produtos();
 
-                prod.setPkProduto(resultado.getInt("pkservico"));
-                prod.setDescricao(resultado.getString("nomeservico"));
+                prod.setPkProduto(resultado.getInt("pkproduto"));
+                prod.setDescricao(resultado.getString("descricao"));
                 prod.setPreco(resultado.getString("preco"));
-                
+                listaProdutos.add(prod);
             }
         } catch (SQLException e) {
             Logger.getLogger(UsuarioController.class.getName()).log(
@@ -65,12 +66,13 @@ public class ProdutosController {
     }
     
     public boolean alterarProduto(Produtos prod) {
-        String sql = "UPDATE produtos " + "SET descricao = ?, preco = ? ";
+        String sql = "UPDATE produtos " + "SET descricao = ?, preco = ? WHERE pkproduto = ?";
         GerenciadorConexao gerenciador = new GerenciadorConexao();
         PreparedStatement comando = null;
 
         try {
             comando = gerenciador.prepararConexao(sql);
+            comando.setInt(3, prod.getPkProduto());
             comando.setString(1, prod.getDescricao());
             comando.setString(2, prod.getPreco());
             comando.executeUpdate();
@@ -103,4 +105,34 @@ public class ProdutosController {
         }
         return false;
     }
+     
+     public Produtos buscarPorPk(int pkProdutos) {
+        String sql = "SELECT * FROM produtos " + "WHERE pkproduto = ?";
+
+        GerenciadorConexao gerenciador = new GerenciadorConexao();
+        PreparedStatement comando = null;
+        ResultSet resultado = null;
+
+        Produtos Prod = new Produtos();
+
+        try {
+            comando = gerenciador.prepararConexao(sql);
+            comando.setInt(1, pkProdutos);
+            resultado = comando.executeQuery();
+            if (resultado.next()) {
+                Prod.setPkProduto(resultado.getInt("pkproduto"));
+                Prod.setDescricao(resultado.getString("descricao"));
+                Prod.setPreco(resultado.getString("preco"));
+        
+            }
+
+        } catch (SQLException e) {
+            Logger.getLogger(UsuarioController.class.getName()).log(
+                    Level.SEVERE, null, e);
+        } finally {
+            gerenciador.fecharConexao();
+        }
+        return Prod;
+    }
+
 }

@@ -7,7 +7,10 @@ package view;
 
 import controller.ProdutosController;
 import controller.ServicosController;
+import java.sql.SQLException;
+import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import model.Produtos;
 import model.Servicos;
 
@@ -38,8 +41,8 @@ public class FrCadProduto extends javax.swing.JDialog {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        tblProdutos = new javax.swing.JTable();
+        btnPesquisar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         txtPrecoProd = new javax.swing.JTextField();
@@ -47,6 +50,7 @@ public class FrCadProduto extends javax.swing.JDialog {
         btnSalvar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         btnAlterar = new javax.swing.JButton();
+        btnExcluir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -58,29 +62,54 @@ public class FrCadProduto extends javax.swing.JDialog {
         jLabel1.setText("Cadastro de Produto");
         jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(295, 19, -1, -1));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblProdutos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID ", "Nome", "Preço"
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tblProdutos);
+        if (tblProdutos.getColumnModel().getColumnCount() > 0) {
+            tblProdutos.getColumnModel().getColumn(0).setResizable(false);
+            tblProdutos.getColumnModel().getColumn(1).setResizable(false);
+            tblProdutos.getColumnModel().getColumn(2).setResizable(false);
+        }
 
         jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, 601, 252));
 
-        jButton1.setFont(new java.awt.Font("Courier New", 2, 18)); // NOI18N
-        jButton1.setText("Pesquisar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+        btnPesquisar.setFont(new java.awt.Font("Courier New", 2, 18)); // NOI18N
+        btnPesquisar.setText("Pesquisar");
+        btnPesquisar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnPesquisarMouseClicked(evt);
             }
         });
-        jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 60, -1, 50));
+        btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPesquisarActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnPesquisar, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 60, -1, 50));
 
         jLabel2.setFont(new java.awt.Font("Courier New", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
@@ -108,6 +137,11 @@ public class FrCadProduto extends javax.swing.JDialog {
 
         btnSalvar.setFont(new java.awt.Font("Courier New", 2, 18)); // NOI18N
         btnSalvar.setText("Salvar");
+        btnSalvar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnSalvarMouseClicked(evt);
+            }
+        });
         btnSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSalvarActionPerformed(evt);
@@ -126,12 +160,25 @@ public class FrCadProduto extends javax.swing.JDialog {
 
         btnAlterar.setFont(new java.awt.Font("Courier New", 2, 18)); // NOI18N
         btnAlterar.setText("Alterar");
+        btnAlterar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAlterarMouseClicked(evt);
+            }
+        });
         btnAlterar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAlterarActionPerformed(evt);
             }
         });
         jPanel2.add(btnAlterar, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 450, 150, 50));
+
+        btnExcluir.setText("Excluir");
+        btnExcluir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnExcluirMouseClicked(evt);
+            }
+        });
+        jPanel2.add(btnExcluir, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 450, 130, 50));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -160,9 +207,9 @@ public class FrCadProduto extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnPesquisarActionPerformed
 
     private void txtPrecoProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPrecoProdActionPerformed
         // TODO add your handling code here:
@@ -184,39 +231,100 @@ public class FrCadProduto extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAlterarActionPerformed
 
-    
+    private void btnAlterarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAlterarMouseClicked
+        // TODO add your handling code here:
+        if (tblProdutos.getSelectedRow() != -1) {
+            int posicaoSelecionada = tblProdutos.getSelectedRow();
+            String textoCelula = tblProdutos.getValueAt(posicaoSelecionada, 0).toString();
+
+            int pkProduto = Integer.parseInt(textoCelula);
+
+            FrAltProd telaAlt = new FrAltProd(null, rootPaneCheckingEnabled, pkProduto);
+
+            telaAlt.setVisible(true);
+        }
+    }//GEN-LAST:event_btnAlterarMouseClicked
+
+    private void btnSalvarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalvarMouseClicked
+        // TODO add your handling code here:
+        if (verificarCampos()) {
+            pesquisar();
+            gravar();
+
+        }
+    }//GEN-LAST:event_btnSalvarMouseClicked
+
+    private void btnPesquisarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPesquisarMouseClicked
+        // TODO add your handling code here:
+        pesquisar();
+    }//GEN-LAST:event_btnPesquisarMouseClicked
+
+    private void btnExcluirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExcluirMouseClicked
+        // TODO add your handling code here:
+        if (tblProdutos.getSelectedRow() != -1) {
+            int posicaoSelecionada = tblProdutos.getSelectedRow();
+            String textoCelula = tblProdutos.getValueAt(posicaoSelecionada, 0).toString();
+
+            int pkProduto = Integer.parseInt(textoCelula);
+
+           ProdutosController prod = new ProdutosController();
+           prod.deletar(pkProduto);
+           JOptionPane.showMessageDialog(null, "Produto Excluído com sucesso !");
+           pesquisar();
+        }else{
+            JOptionPane.showMessageDialog(null , "erro so excluir o produto");
+        }
+
+    }//GEN-LAST:event_btnExcluirMouseClicked
+
     public void gravar() {
         Produtos prod = new Produtos();
 
         prod.setDescricao(txtDescProd.getText());
         prod.setPreco(txtPrecoProd.getText());
-        
 
         ProdutosController controller = new ProdutosController();
         if (controller.inserirProduto(prod)) {
-            JOptionPane.showMessageDialog(null, "Produto inserido com sucesso!");
+            JOptionPane.showMessageDialog(null, "Produto salvo com sucesso!");
         } else {
-            JOptionPane.showMessageDialog(null, "Erro ao inserir o produto");
+            JOptionPane.showMessageDialog(null, "Erro ao salvar o produto");
         }
 
     }
-    
-    public boolean verificarCampos(){
-       String campoNome = txtDescProd.getText();
-       String campoPreco = txtPrecoProd.getText();
-       
-       
-       if (campoNome.equals("")){
-           JOptionPane.showMessageDialog(null, "Insira o nome do produto !");
-           return false;
-       }
-       if (campoPreco.equals("")){
-           JOptionPane.showMessageDialog(null, "Insira o preço do produto!");
-           return false;
-       }
-       
-       return true;
+
+    public boolean verificarCampos() {
+        String campoNome = txtDescProd.getText();
+        String campoPreco = txtPrecoProd.getText();
+
+        if (campoNome.equals("")) {
+            JOptionPane.showMessageDialog(null, "Insira o nome do produto !");
+            return false;
+        }
+        if (campoPreco.equals("")) {
+            JOptionPane.showMessageDialog(null, "Insira o preço do produto!");
+            return false;
+        }
+
+        return true;
     }
+
+    public void pesquisar() {
+        DefaultTableModel modelotabela = (DefaultTableModel) tblProdutos.getModel();
+
+        modelotabela.setNumRows(0);
+        ProdutosController controller = new ProdutosController();
+        List<Produtos> listaProdutos = controller.consultarProdutos();
+
+        for (Produtos prod : listaProdutos) {
+            Object[] linha = {
+                prod.getPkProduto(),
+                prod.getDescricao(),
+                prod.getPreco(),};
+
+            modelotabela.addRow(linha);
+        }
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -262,15 +370,16 @@ public class FrCadProduto extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAlterar;
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnExcluir;
+    private javax.swing.JButton btnPesquisar;
     private javax.swing.JButton btnSalvar;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tblProdutos;
     private javax.swing.JTextField txtDescProd;
     private javax.swing.JTextField txtPrecoProd;
     // End of variables declaration//GEN-END:variables
