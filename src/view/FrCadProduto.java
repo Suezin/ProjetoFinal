@@ -172,6 +172,7 @@ public class FrCadProduto extends javax.swing.JDialog {
         });
         jPanel2.add(btnAlterar, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 450, 150, 50));
 
+        btnExcluir.setFont(new java.awt.Font("Courier New", 2, 18)); // NOI18N
         btnExcluir.setText("Excluir");
         btnExcluir.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {

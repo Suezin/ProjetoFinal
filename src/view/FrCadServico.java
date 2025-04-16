@@ -53,6 +53,7 @@ public class FrCadServico extends javax.swing.JDialog {
         txtTempo = new javax.swing.JTextField();
         btnExcluir = new javax.swing.JButton();
         btnSalvar = new javax.swing.JButton();
+        btnAlterar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -135,7 +136,7 @@ public class FrCadServico extends javax.swing.JDialog {
                 btnExcluirMouseClicked(evt);
             }
         });
-        jPanel1.add(btnExcluir, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 460, -1, -1));
+        jPanel1.add(btnExcluir, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 470, -1, -1));
 
         btnSalvar.setFont(new java.awt.Font("Courier New", 1, 18)); // NOI18N
         btnSalvar.setText("Salvar");
@@ -149,7 +150,16 @@ public class FrCadServico extends javax.swing.JDialog {
                 btnSalvarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnSalvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 460, -1, -1));
+        jPanel1.add(btnSalvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 470, -1, -1));
+
+        btnAlterar.setFont(new java.awt.Font("Courier New", 2, 18)); // NOI18N
+        btnAlterar.setText("Alterar");
+        btnAlterar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAlterarMouseClicked(evt);
+            }
+        });
+        jPanel1.add(btnAlterar, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 470, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -204,6 +214,21 @@ public class FrCadServico extends javax.swing.JDialog {
            }
         }
     }//GEN-LAST:event_btnExcluirMouseClicked
+
+    private void btnAlterarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAlterarMouseClicked
+        // TODO add your handling code here:
+        
+        if (tblServicos.getSelectedRow() != -1) {
+            int posicaoSelecionada = tblServicos.getSelectedRow();
+            String textoCelula = tblServicos.getValueAt(posicaoSelecionada, 0).toString();
+
+            int pkServico = Integer.parseInt(textoCelula);
+
+            FrAltServico telaAlt = new FrAltServico(null, rootPaneCheckingEnabled, pkServico);
+
+            telaAlt.setVisible(true);
+        }
+    }//GEN-LAST:event_btnAlterarMouseClicked
     
     public boolean verificarCampos(){
        String campoDesc = txtDescricao.getText();
@@ -247,7 +272,7 @@ public class FrCadServico extends javax.swing.JDialog {
         
         modelotabela.setNumRows(0);
         ServicosController controller = new ServicosController();
-        List<Servicos> listaServicos = controller.consultarServios();
+        List<Servicos> listaServicos = controller.consultarServicos();
         
         for(Servicos serv : listaServicos) {
             Object[] linha = {
@@ -304,6 +329,7 @@ public class FrCadServico extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAlterar;
     private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnPesquisar;
     private javax.swing.JButton btnSalvar;

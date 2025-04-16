@@ -261,6 +261,8 @@ this.dispose();        // TODO add your handling code here:
 
     private void btnSalvarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalvarMouseClicked
         // TODO add your handling code here:
+        
+        gravar();
     }//GEN-LAST:event_btnSalvarMouseClicked
 
     private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
@@ -277,10 +279,10 @@ this.dispose();        // TODO add your handling code here:
             int posicaoSelecionada = tblClientes.getSelectedRow();
             String textoCelula = tblClientes.getValueAt(posicaoSelecionada, 0).toString();
         
-            int pkServico = Integer.parseInt(textoCelula);
+            int pkCliente = Integer.parseInt(textoCelula);
             
            ServicosController controller = new ServicosController();
-           if(controller.deletar(pkServico)){
+           if(controller.deletar(pkCliente)){
                pesquisar();
                JOptionPane.showMessageDialog(rootPane, "Deletado com Sucesso!");
            }else{
@@ -307,7 +309,7 @@ this.dispose();        // TODO add your handling code here:
         c.setDataNasc(utils.Utils.converterStringToDate(txtDataNasc.getText()));
 
         ClienteController cl = new ClienteController();
-        if (cl.inserirCliente(c)) {
+        if (cl.inserir(c)) {
             JOptionPane.showMessageDialog(null, "Serviço inserido com sucesso!");
         } else {
             JOptionPane.showMessageDialog(null, "Erro ao inserir serviço");

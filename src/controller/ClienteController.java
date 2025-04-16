@@ -33,7 +33,7 @@ public class ClienteController {
     
 }
     
-    public boolean alterarUsuario(Clientes cliente) {
+    public boolean alterarCliente(Clientes cliente) {
         String sql = "UPDATE clientes " + "SET nome = ?, telefone = ?, datanasc = ? WHERE pkcliente = ?";
         GerenciadorConexao gerenciador = new GerenciadorConexao();
         PreparedStatement comando = null;
@@ -116,8 +116,8 @@ public class ClienteController {
         return listaClientes;
     }
 
-    public boolean deletar(int pkUsuario) {
-        Usuario usu = new Usuario();
+    public boolean deletar(int pkCliente) {
+        Clientes cliente = new Clientes();
         String sql = "DELETE FROM clientes WHERE pkusuario = ?";
 
         GerenciadorConexao gerenciador = new GerenciadorConexao();
@@ -125,7 +125,7 @@ public class ClienteController {
 
         try {
             comando = gerenciador.prepararConexao(sql);
-            comando.setInt(1, pkUsuario);
+            comando.setInt(1, pkCliente);
             comando.executeUpdate();
             return true;
         } catch (SQLException e ) {
